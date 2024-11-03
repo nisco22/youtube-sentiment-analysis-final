@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trending Videos</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+      <h1 class="text-3xl font-bold mb-4 text-center">
+        Trending Videos in {{ region_code }}
+      </h1>
+
+      {% if error %}
+      <p class="text-red-500 text-center">{{ error }}</p>
+      {% else %}
+      <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+        <thead>
+          <tr class="bg-gray-200 text-gray-700">
+            <th class="py-2 px-4">Title</th>
+            <th class="py-2 px-4">Views</th>
+            <th class="py-2 px-4">Likes</th>
+            <th class="py-2 px-4">Comments</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for video in trending_videos %}
+          <tr class="border-b hover:bg-gray-100">
+            <td class="py-2 px-4">
+              <a
+                href="{{ url_for('video_details', video_id=video.video_id) }}"
+                class="text-blue-600 hover:underline"
+                >{{ video.title }}</a
+              >
+            </td>
+            <td class="py-2 px-4">{{ video.views }}</td>
+            <td class="py-2 px-4">{{ video.likes }}</td>
+            <td class="py-2 px-4">{{ video.comments_count }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% endif %}
+
+      <div class="mt-6 text-center">
+        <a href="/landing" class="text-blue-600 hover:underline"
+          >Search Again</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

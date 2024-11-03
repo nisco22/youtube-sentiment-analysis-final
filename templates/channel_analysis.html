@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Channel Analysis</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+      <h1 class="text-3xl font-bold mb-4 text-center">
+        Channel Analysis Results for "{{ channel_title }}"
+      </h1>
+
+      {% if error %}
+      <p class="text-red-500 text-center">{{ error }}</p>
+      {% else %}
+      <div id="graph" class="mb-6"></div>
+      <script>
+        const graphJson = {{ graph_json|safe }};
+        Plotly.newPlot('graph', graphJson.data, graphJson.layout);
+      </script>
+
+      <h2 class="text-2xl font-semibold my-4">Most Viewed Videos</h2>
+      <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+        <thead>
+          <tr class="bg-gray-200 text-gray-700">
+            <th class="py-2 px-4">Title</th>
+            <th class="py-2 px-4">Views</th>
+            <th class="py-2 px-4">Likes</th>
+            <th class="py-2 px-4">Comments</th>
+            <th class="py-2 px-4">Sentiment</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for video in most_viewed_videos %}
+          <tr
+            class="border-b hover:bg-gray-100"
+            onclick="fetchVideoData('{{ video.video_id }}')"
+          >
+            <td class="py-2 px-4 cursor-pointer text-blue-600 hover:underline">
+              {{ video.title }}
+            </td>
+            <td class="py-2 px-4">{{ video.views }}</td>
+            <td class="py-2 px-4">{{ video.likes }}</td>
+            <td class="py-2 px-4">{{ video.comments_count }}</td>
+            <td class="py-2 px-4">{{ video.sentiment | round(2) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h2 class="text-2xl font-semibold my-4">Least Viewed Videos</h2>
+      <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+        <thead>
+          <tr class="bg-gray-200 text-gray-700">
+            <th class="py-2 px-4">Title</th>
+            <th class="py-2 px-4">Views</th>
+            <th class="py-2 px-4">Likes</th>
+            <th class="py-2 px-4">Comments</th>
+            <th class="py-2 px-4">Sentiment</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for video in least_viewed_videos %}
+          <tr
+            class="border-b hover:bg-gray-100"
+            onclick="fetchVideoData('{{ video.video_id }}')"
+          >
+            <td class="py-2 px-4 cursor-pointer text-blue-600 hover:underline">
+              {{ video.title }}
+            </td>
+            <td class="py-2 px-4">{{ video.views }}</td>
+            <td class="py-2 px-4">{{ video.likes }}</td>
+            <td class="py-2 px-4">{{ video.comments_count }}</td>
+            <td class="py-2 px-4">{{ video.sentiment | round(2) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div id="video-graph" class="mt-6"></div>
+
+      <div class="mt-10 mb-6 text-center">
+        <a
+          href="/landing"
+          class="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-200"
+          >Analyze Another Channel</a
+        >
+      </div>
+      {% endif %}
+    </div>
+
+    <script>
+      function fetchVideoData(videoId) {
+        fetch(`/video_data/${videoId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            // Plot total views and likes
+            const videoFig = {
+              data: [
+                {
+                  x: ["Views", "Likes"],
+                  y: [data.views, data.likes],
+                  type: "bar",
+                },
+              ],
+              layout: { title: `Total Views and Likes for ${data.title}` },
+            };
+            Plotly.newPlot("video-graph", videoFig.data, videoFig.layout);
+          })
+          .catch((error) => console.error("Error fetching video data:", error));
+      }
+    </script>
+  </body>
+</html>
