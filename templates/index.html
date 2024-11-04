@@ -8,6 +8,12 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;1,600&display=swap" rel="stylesheet" />
+    <style>
+      * {
+      font-family: 'Source Sans Pro';
+      }
+    </style>
     <style>
       .card {
         transition: transform 0.3s ease;
@@ -18,9 +24,9 @@
     </style>
   </head>
   <body class="min-h-screen bg-gray-50">
-    <div class="flex justify-center align-center mt-4">
+    <div class="flex justify-center align-center mt-8">
       <br />
-      <h1 class="text-3xl font-bold mb-2">
+      <h1 class="text-4xl font-bold mb-2">
         Welcome, Get Ready To Analyze{{ username }}!
       </h1>
       <br />
@@ -41,7 +47,7 @@
         </p>
         <form action="/channel" method="POST">
           <div class="mt-8 flex flex-col">
-            <label for="channel_id" class="text-sm text-gray-600">
+            <label for="channel_id" class="text-sm font-normal text-gray-600">
               YouTube Username:
             </label>
             <input
@@ -49,7 +55,8 @@
               type="text"
               name="channel_id"
               id="channel_id"
-              placeholder="YouTube Username"
+              placeholder="Enter  YouTube Username"
+              required
             />
           </div>
 
@@ -71,7 +78,8 @@
             name="region_code"
             required
             class="mt-2 mb-4 block w-full p-3 border border-gray-300 rounded-lg shadow focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter region code (e.g., US)"
+            placeholder="Enter region code (e.g., ZW for Zimbabwe)"
+            required
           />
           <button
             type="submit"

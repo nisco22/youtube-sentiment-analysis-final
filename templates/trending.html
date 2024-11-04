@@ -8,6 +8,12 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;1,600&display=swap" rel="stylesheet" />
+    <style>
+      * {
+      font-family: 'Source Sans Pro';
+      }
+    </style>
   </head>
   <body class="bg-gray-100">
     <div class="container mx-auto p-6">
@@ -18,32 +24,73 @@
       {% if error %}
       <p class="text-red-500 text-center">{{ error }}</p>
       {% else %}
-      <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
-        <thead>
-          <tr class="bg-gray-200 text-gray-700">
-            <th class="py-2 px-4">Title</th>
-            <th class="py-2 px-4">Views</th>
-            <th class="py-2 px-4">Likes</th>
-            <th class="py-2 px-4">Comments</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for video in trending_videos %}
-          <tr class="border-b hover:bg-gray-100">
-            <td class="py-2 px-4">
-              <a
+      
+
+
+      <div class="w-screen">
+  
+        <div class="mx-auto mt-8 max-w-screen-lg px-2">
+          <div class="sm:flex sm:items-center sm:justify-between flex-col sm:flex-row">
+            
+        
+            
+              </div>
+            </div>
+          </div>
+        
+          <div class="mt-6 overflow-hidden rounded-xl bg-white border shadow">
+            <table class="min-w-full border-separate border-spacing-y-2 border-spacing-x-2">
+              <thead class="hidden border-b lg:table-header-group">
+                <tr class="">
+                  <td width="50%" class="whitespace-normal py-4 text-md font-medium font-bold text-gray-00 sm:px-6">Title</td>
+        
+                  <td class="whitespace-normal py-4 text-md font-medium font-bold text-gray-00 sm:px-6">Views</td>
+        
+                  <td class="whitespace-normal py-4 text-md font-medium font-bold text-gray-00 sm:px-6">Likes</td>
+        
+                  <td class="whitespace-normal py-4 text-md font-medium font-bold text-gray-00 sm:px-6">Comments</td>
+                </tr>
+              </thead>
+        
+              <tbody class="lg:border-gray-300">
+                {% for video in trending_videos %}
+                
+        
+                <tr class="">
+                  <td width="50%" class="whitespace-no-wrap py-4 text-sm font-bold text-gray-900 sm:px-6">
+                    <a
                 href="{{ url_for('video_details', video_id=video.video_id) }}"
                 class="text-blue-600 hover:underline"
                 >{{ video.title }}</a
               >
-            </td>
-            <td class="py-2 px-4">{{ video.views }}</td>
-            <td class="py-2 px-4">{{ video.likes }}</td>
-            <td class="py-2 px-4">{{ video.comments_count }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+                  </td>
+        
+                  <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">{{ video.views }}</td>
+        
+                  <td class="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                    {{ video.likes }}
+                    <div class="flex mt-1 ml-auto w-fit items-center rounded-full bg-red-200 py-1 px-2 text-left font-medium text-red-500 lg:hidden">Canceled</div>
+                  </td>
+        
+                  <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                    <div class="inline-flex items-center rounded-full bg-red-200 py-1 px-2 text-red-500">{{ video.comments_count }}</div>
+                  </td>
+                </tr>
+        
+                {% endfor %}
+        
+               
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        </div>
+
+
+
+
 
       {% endif %}
 
